@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECHNULA-GAJ — LogDay SaaS Proposal (Light Edition)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-card-subtle: #f1f5f9;
+            --accent-blue: #2563eb;
+            --accent-blue-light: #eff6ff;
+            --accent-purple: #7c3aed;
+            --accent-purple-light: #f5f3ff;
+            --accent-cyan: #0891b2;
+            --accent-green: #059669;
+            --accent-green-light: #ecfdf5;
+            --accent-orange: #d97706;
+            --accent-orange-light: #fffbeb;
+            --accent-pink: #db2777;
+            --accent-pink-light: #fdf2f8;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --border-strong: #cbd5e1;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+            --gradient-1: linear-gradient(135deg, #1d4ed8 0%, #6d28d9 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        @page {
+            size: A4 portrait;
+            margin: 14mm 12mm;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #ffffff;
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        .page {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* PAGE BREAK RULES FOR PDF */
+        .page-break {
+            page-break-before: always;
+            break-before: page;
+        }
+        .avoid-break {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        /* HERO HEADER */
+        .hero {
+            background: linear-gradient(145deg, #f8fafc 0%, #eef2ff 50%, #e0e7ff 100%);
+            border-bottom: 2px solid #e2e8f0;
+            padding: 56px 0 48px;
+            text-align: center;
+            position: relative;
+        }
+        .hero-content { position: relative; z-index: 1; }
+        .company-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: #ffffff;
+            border: 1px solid #c7d2fe;
+            box-shadow: var(--shadow-sm);
+            padding: 6px 18px; border-radius: 50px;
+            font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
+            text-transform: uppercase; color: #4338ca; margin-bottom: 20px;
+        }
+        .hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.15;
+            margin-bottom: 14px;
+            letter-spacing: -0.5px;
+        }
+        .hero .subtitle {
+            font-size: 17px;
+            color: #475569;
+            max-width: 650px;
+            margin: 0 auto 24px;
+            font-weight: 400;
+        }
+        .hero-meta {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            flex-wrap: wrap;
+            font-size: 13px;
+            font-weight: 600;
+            color: #4f46e5;
+        }
+        .hero-meta span {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 4px 14px;
+            border-radius: 20px;
+            border: 1px solid #e0e7ff;
+        }
+
+        /* SECTIONS */
+        .section {
+            padding: 44px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .section:last-child { border-bottom: none; }
+        .section-label {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+            text-transform: uppercase; color: var(--accent-blue);
+            background: var(--accent-blue-light);
+            padding: 4px 10px; border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+        .section-desc {
+            font-size: 15px;
+            color: var(--text-secondary);
+            max-width: 720px;
+            margin-bottom: 30px;
+        }
+
+        /* STATS */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 28px 0;
+        }
+        .stat-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            border-radius: 14px;
+            padding: 20px 16px;
+            text-align: center;
+        }
+        .stat-card .number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 34px;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+        .stat-card .label {
+            font-size: 12.5px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        /* PRICING */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 24px;
+        }
+        .pricing-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            max-width: 600px;
+            margin: 20px auto 0;
+        }
+        .price-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            border-radius: 16px;
+            padding: 24px 20px;
+            position: relative;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+        .price-card.featured {
+            border: 2px solid var(--accent-blue);
+            background: #f8faff;
+            box-shadow: var(--shadow-md);
+        }
+        .price-card.featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -11px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            padding: 3px 12px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+        .price-card.enterprise {
+            border: 2px solid #ec4899;
+            background: #fdf8fb;
+        }
+        .price-card.enterprise::before {
+            content: 'ALL INCLUSIVE';
+            position: absolute;
+            top: -11px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #db2777, #9333ea);
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            padding: 3px 12px;
+            border-radius: 20px;
+        }
+        .tier-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+        .tier-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 19px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 2px;
+        }
+        .tier-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            min-height: 32px;
+        }
+        .price {
+            font-family: 'Outfit', sans-serif;
+            font-size: 38px;
+            font-weight: 800;
+            line-height: 1;
+            color: #0f172a;
+        }
+        .price .currency {
+            font-size: 20px;
+            font-weight: 700;
+            vertical-align: super;
+            margin-right: 2px;
+            color: var(--text-secondary);
+        }
+        .price-unit {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+            font-weight: 500;
+        }
+        .features-list {
+            list-style: none;
+            padding: 0;
+            border-top: 1px dashed var(--border);
+            padding-top: 14px;
+        }
+        .features-list li {
+            font-size: 12.5px;
+            color: var(--text-secondary);
+            padding: 4px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 7px;
+        }
+        .features-list li::before {
+            content: '\2713';
+            color: var(--accent-green);
+            font-weight: 800;
+            flex-shrink: 0;
+            font-size: 13px;
+        }
+        .features-list li.disabled {
+            color: #94a3b8;
+            text-decoration: line-through;
+            opacity: 0.65;
+        }
+        .features-list li.disabled::before {
+            content: '\2014';
+            color: #cbd5e1;
+        }
+
+        /* FEATURE GRID */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .feature-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            border-radius: 14px;
+            padding: 22px 20px;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+        .feature-card .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            margin-bottom: 12px;
+        }
+        .feature-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 6px;
+        }
+        .feature-card p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        .tag-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+        .tag {
+            font-size: 10.5px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 12px;
+            background: #eef2ff;
+            color: #4338ca;
+            border: 1px solid #e0e7ff;
+        }
+
+        /* TABLES */
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+        .styled-table th {
+            background: #f1f5f9;
+            color: #1e293b;
+            font-size: 11.5px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        .styled-table td {
+            padding: 11px 16px;
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border);
+        }
+        .styled-table tr:nth-child(even) td {
+            background: #f8fafc;
+        }
+        .highlight {
+            color: var(--accent-green);
+            font-weight: 700;
+        }
+        .total-row td {
+            background: #eff6ff !important;
+            font-weight: 700;
+            color: #1e3a8a;
+            font-size: 14px;
+        }
+
+        /* COMPARE TABLE */
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            font-size: 13px;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+        .compare-table th {
+            background: #f8fafc;
+            padding: 12px 14px;
+            font-size: 11.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #475569;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+        .compare-table th:first-child { text-align: left; }
+        .compare-table th.ours {
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-weight: 800;
+            border-left: 2px solid #bfdbfe;
+            border-right: 2px solid #bfdbfe;
+        }
+        .compare-table td {
+            padding: 10px 14px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+        .compare-table td:first-child {
+            text-align: left;
+            font-weight: 600;
+            color: #0f172a;
+        }
+        .compare-table td.ours-cell {
+            background: #f8faff;
+            font-weight: 600;
+            border-left: 2px solid #bfdbfe;
+            border-right: 2px solid #bfdbfe;
+        }
+        .yes { color: var(--accent-green); font-weight: 700; font-size: 14px; }
+        .no { color: #dc2626; font-size: 13px; }
+        .price-cell { color: #3b82f6; font-weight: 600; }
+
+        /* TIMELINE */
+        .timeline {
+            position: relative;
+            padding-left: 36px;
+            margin-top: 24px;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 4px;
+            bottom: 4px;
+            width: 3px;
+            background: linear-gradient(180deg, #2563eb 0%, #7c3aed 50%, #059669 100%);
+            border-radius: 3px;
+        }
+        .timeline-item {
+            position: relative;
+            padding-bottom: 24px;
+            break-inside: avoid;
+        }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -29.5px;
+            top: 3px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 3px solid #2563eb;
+            z-index: 1;
+            box-shadow: var(--shadow-sm);
+        }
+        .timeline-item .day {
+            font-size: 11px;
+            font-weight: 700;
+            color: #2563eb;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+        }
+        .timeline-item h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 2px;
+        }
+        .timeline-item p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* WHY GRID */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 24px;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+        .why-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            border-radius: 14px;
+            padding: 18px 16px;
+            text-align: center;
+            break-inside: avoid;
+        }
+        .why-card .emoji { font-size: 26px; margin-bottom: 8px; }
+        .why-card h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+        .why-card p {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.45;
+        }
+
+        /* CALLOUT */
+        .callout-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 14px;
+            padding: 22px 26px;
+            margin: 24px 0;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+        .callout-box h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-bottom: 6px;
+        }
+        .callout-box p {
+            font-size: 13.5px;
+            color: #334155;
+            line-height: 1.5;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 10.5px;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 12px;
+            background: #ecfdf5;
+            color: #047857;
+            border: 1px solid #a7f3d0;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: #f8fafc;
+            border-top: 1px solid var(--border);
+            padding: 36px 0 28px;
+            text-align: center;
+            margin-top: 20px;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+        .footer .company-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            color: #1e3a8a;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+        .contact-grid {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+        }
+        .contact-item {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 24px auto;
+            max-width: 600px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 30px; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .pricing-grid, .pricing-grid-2 { grid-template-columns: 1fr; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .why-grid { grid-template-columns: 1fr; }
+            .contact-grid { flex-direction: column; gap: 10px; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="hero">
+    <div class="page hero-content">
+        <div class="company-badge">TECHNULA-GAJ</div>
+        <h1>LogDay &mdash; Workforce<br>Management Platform</h1>
+        <p class="subtitle">Cloud-based Attendance, HRMS &amp; Field Force Management &mdash; built for modern Indian businesses</p>
+        <div class="hero-meta">
+            <span>SaaS Commercial Proposal</span>
+            <span>September 2026</span>
+            <span>www.technula.com</span>
+        </div>
+    </div>
+</header>
+
+<main class="page">
+
+    <!-- SECTION 1: ABOUT US -->
+    <section class="section">
+        <div class="section-label">ABOUT US</div>
+        <h2 class="section-title">Who We Are</h2>
+        <p class="section-desc">TECHNULA-GAJ is a technology company delivering affordable, cloud-native workforce management solutions. We help organizations replace manual attendance registers and disconnected HR tools with a unified, intelligent digital system.</p>
+        <div class="stats-row">
+            <div class="stat-card"><div class="number">160+</div><div class="label">API Endpoints</div></div>
+            <div class="stat-card"><div class="number">5</div><div class="label">Products in One</div></div>
+            <div class="stat-card"><div class="number">37+</div><div class="label">Mobile App Screens</div></div>
+            <div class="stat-card"><div class="number">25</div><div class="label">Admin Dashboard Pages</div></div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: PLATFORM OVERVIEW -->
+    <section class="section">
+        <div class="section-label">PLATFORM OVERVIEW</div>
+        <h2 class="section-title">What LogDay Offers</h2>
+        <p class="section-desc">One cohesive platform covering all dimensions of workforce management &mdash; from desk attendance to field force tracking, full HRMS, automated payroll, and remote monitoring.</p>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="icon" style="background:#eff6ff;color:#2563eb;">&#127970;</div>
+                <h3>Desk Attendance</h3>
+                <p>Digital check-in and check-out for office employees with OTP verification, late/early detection, and automated leave classification.</p>
+                <div class="tag-row"><span class="tag">OTP Verification</span><span class="tag">Auto Late/Early</span><span class="tag">Live Feed</span></div>
+            </div>
+            <div class="feature-card">
+                <div class="icon" style="background:#ecfdf5;color:#059669;">&#128205;</div>
+                <h3>Field Force Management</h3>
+                <p>GPS-based attendance with territory geofencing, visit plan management, live route tracking, expense claims, and real-time war room monitoring.</p>
+                <div class="tag-row"><span class="tag">GPS Geofencing</span><span class="tag">Visit Plans</span><span class="tag">Live Tracking</span><span class="tag">Expenses</span></div>
+            </div>
+            <div class="feature-card">
+                <div class="icon" style="background:#f5f3ff;color:#7c3aed;">&#128101;</div>
+                <h3>HRMS Suite</h3>
+                <p>Complete employee lifecycle &mdash; onboarding, employee profiles, department mapping, leave policy engine, DigiLocker/OCR document checks, and exit clearance.</p>
+                <div class="tag-row"><span class="tag">Onboarding</span><span class="tag">Leave Policy</span><span class="tag">Doc Verification</span><span class="tag">Exit Mgmt</span></div>
+            </div>
+            <div class="feature-card">
+                <div class="icon" style="background:#fffbeb;color:#d97706;">&#128176;</div>
+                <h3>Payroll Processing</h3>
+                <p>Salary structure setup, monthly payroll runs, automated payslip generation, holiday sync, and automated LOP deductions from the leave module.</p>
+                <div class="tag-row"><span class="tag">Salary Structure</span><span class="tag">Payslips</span><span class="tag">LOP Integration</span></div>
+            </div>
+            <div class="feature-card">
+                <div class="icon" style="background:#fdf2f8;color:#db2777;">&#128421;</div>
+                <h3>WFH Monitoring</h3>
+                <p>Lightweight desktop agent for remote teams &mdash; background screenshots, app usage analytics, productivity scoring, face check, and live view.</p>
+                <div class="tag-row"><span class="tag">Screenshots</span><span class="tag">App Tracking</span><span class="tag">Productivity Score</span><span class="tag">Face Check</span></div>
+            </div>
+            <div class="feature-card">
+                <div class="icon" style="background:#ecfeff;color:#0891b2;">&#128200;</div>
+                <h3>Reports &amp; Analytics</h3>
+                <p>Attendance trends, leave utilization, expense audits, agent performance funnels, visit heatmaps &mdash; all exportable to PDF and Excel.</p>
+                <div class="tag-row"><span class="tag">PDF Export</span><span class="tag">Excel Export</span><span class="tag">Fraud Detection</span><span class="tag">Leaderboard</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: PRICING PLANS -->
+    <section class="section page-break">
+        <div class="section-label">PRICING</div>
+        <h2 class="section-title">Simple, Transparent Pricing</h2>
+        <p class="section-desc">Choose the plan that fits your organization. No hidden charges. No long-term lock-in. Start with what you need, scale as you grow.</p>
+        <div class="pricing-grid">
+            <div class="price-card">
+                <div class="tier-icon" style="background:#eff6ff;color:#2563eb;">&#127970;</div>
+                <div class="tier-name">Desk Attendance</div>
+                <div class="tier-desc">For office &amp; in-house teams</div>
+                <div class="price"><span class="currency">&#8377;</span>59</div>
+                <div class="price-unit">per employee / month</div>
+                <ul class="features-list">
+                    <li>Digital check-in / check-out</li>
+                    <li>OTP-based verification</li>
+                    <li>Late &amp; early detection</li>
+                    <li>Daily attendance dashboard</li>
+                    <li>Monthly attendance reports</li>
+                    <li>PDF &amp; Excel export</li>
+                    <li>Employee mobile app</li>
+                    <li>Web admin panel</li>
+                    <li class="disabled">Field GPS tracking</li>
+                    <li class="disabled">HRMS &amp; Payroll</li>
+                </ul>
+            </div>
+            <div class="price-card featured">
+                <div class="tier-icon" style="background:#ecfdf5;color:#059669;">&#128205;</div>
+                <div class="tier-name">Desk + Field</div>
+                <div class="tier-desc">For teams with field employees</div>
+                <div class="price"><span class="currency">&#8377;</span>79</div>
+                <div class="price-unit">per employee / month</div>
+                <ul class="features-list">
+                    <li>Everything in Desk Attendance</li>
+                    <li>GPS-based field attendance</li>
+                    <li>Territory geofencing</li>
+                    <li>Visit plan management</li>
+                    <li>Real-time field war room</li>
+                    <li>Route map &amp; GPS trail</li>
+                    <li>Expense claims &amp; reimbursement</li>
+                    <li>Agent performance reports</li>
+                    <li>Field mobile app (Android)</li>
+                    <li class="disabled">HRMS &amp; Payroll</li>
+                </ul>
+            </div>
+            <div class="price-card">
+                <div class="tier-icon" style="background:#f5f3ff;color:#7c3aed;">&#128101;</div>
+                <div class="tier-name">HRMS + Payroll</div>
+                <div class="tier-desc">Complete HR management</div>
+                <div class="price"><span class="currency">&#8377;</span>99</div>
+                <div class="price-unit">per employee / month</div>
+                <ul class="features-list">
+                    <li>Employee lifecycle management</li>
+                    <li>Leave management &amp; policies</li>
+                    <li>Department &amp; designation mgmt</li>
+                    <li>Onboarding workflow</li>
+                    <li>Exit management &amp; clearance</li>
+                    <li>Document verification (DigiLocker)</li>
+                    <li>Salary structures</li>
+                    <li>Monthly payroll processing</li>
+                    <li>Payslip generation</li>
+                    <li>Employee self-service portal</li>
+                </ul>
+            </div>
+        </div>
+        <div class="pricing-grid-2">
+            <div class="price-card">
+                <div class="tier-icon" style="background:#fffbeb;color:#d97706;">&#128640;</div>
+                <div class="tier-name">Complete Bundle</div>
+                <div class="tier-desc">Attendance + HRMS + Payroll</div>
+                <div class="price"><span class="currency">&#8377;</span>129</div>
+                <div class="price-unit">per employee / month</div>
+                <ul class="features-list">
+                    <li>Desk + Field attendance</li>
+                    <li>Full HRMS suite</li>
+                    <li>Payroll processing</li>
+                    <li>All reports &amp; analytics</li>
+                    <li>Fraud detection</li>
+                    <li>Nudge &amp; engagement system</li>
+                    <li>Team leaderboard</li>
+                    <li>Manager portal</li>
+                    <li class="disabled">WFH desktop monitoring</li>
+                </ul>
+            </div>
+            <div class="price-card enterprise">
+                <div class="tier-icon" style="background:#fdf2f8;color:#db2777;">&#127942;</div>
+                <div class="tier-name">Enterprise</div>
+                <div class="tier-desc">Everything + WFH Monitoring</div>
+                <div class="price"><span class="currency">&#8377;</span>149</div>
+                <div class="price-unit">per employee / month</div>
+                <ul class="features-list">
+                    <li>Everything in Complete Bundle</li>
+                    <li>WFH desktop agent</li>
+                    <li>Screenshot monitoring</li>
+                    <li>App usage tracking</li>
+                    <li>Productivity scoring</li>
+                    <li>Face verification</li>
+                    <li>Live remote employee view</li>
+                    <li>WFH policy management</li>
+                    <li>Priority support</li>
+                </ul>
+            </div>
+        </div>
+        <div class="callout-box">
+            <h4>Annual Subscription &mdash; Get 2 Months FREE</h4>
+            <p>Subscribe annually and pay for only 10 months (up to <strong>17% savings</strong>). The one-time setup fee of &#8377;5,000 is 100% waived on annual contracts.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 4: EXAMPLE PRICING -->
+    <section class="section">
+        <div class="section-label">EXAMPLE PRICING</div>
+        <h2 class="section-title">What Would It Cost You?</h2>
+        <p class="section-desc">Straightforward cost projection using the Complete Bundle plan (&#8377;129/employee/month).</p>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Company Size</th>
+                    <th>Plan</th>
+                    <th>Monthly Investment</th>
+                    <th>Annual (Standard)</th>
+                    <th>Annual (2 Months FREE)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>50 Employees</strong></td><td>Complete Bundle</td><td>&#8377;6,450</td><td>&#8377;77,400</td><td class="highlight">&#8377;64,500</td></tr>
+                <tr><td><strong>100 Employees</strong></td><td>Complete Bundle</td><td>&#8377;12,900</td><td>&#8377;1,54,800</td><td class="highlight">&#8377;1,29,000</td></tr>
+                <tr><td><strong>250 Employees</strong></td><td>Complete Bundle</td><td>&#8377;32,250</td><td>&#8377;3,87,000</td><td class="highlight">&#8377;3,22,500</td></tr>
+                <tr><td><strong>500 Employees</strong></td><td>Complete Bundle</td><td>&#8377;64,500</td><td>&#8377;7,74,000</td><td class="highlight">&#8377;6,45,000</td></tr>
+                <tr class="total-row"><td><strong>1,000 Employees</strong></td><td>Complete Bundle</td><td>&#8377;1,29,000</td><td>&#8377;15,48,000</td><td class="highlight">&#8377;12,90,000</td></tr>
+            </tbody>
+        </table>
+        <p style="font-size:12.5px;color:var(--text-muted);margin-top:8px;">* GST applicable as per statutory norms. Volume discounts available for 500+ employees.</p>
+    </section>
+
+    <!-- SECTION 5: HOW WE COMPARE -->
+    <section class="section page-break">
+        <div class="section-label">WHY LOGDAY</div>
+        <h2 class="section-title">How We Compare</h2>
+        <p class="section-desc">See how LogDay stands against major workforce management platforms in India.</p>
+        <table class="compare-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>greytHR</th>
+                    <th>Keka</th>
+                    <th>Zoho People</th>
+                    <th class="ours">LogDay</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Desk Attendance</td><td class="yes">&#10003;</td><td class="yes">&#10003;</td><td class="yes">&#10003;</td><td class="ours-cell yes">&#10003;</td></tr>
+                <tr><td>GPS Field Attendance</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="ours-cell yes">&#10003;</td></tr>
+                <tr><td>Territory Geofencing</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="ours-cell yes">&#10003;</td></tr>
+                <tr><td>Visit Plan Management</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="ours-cell yes">&#10003;</td></tr>
+                <tr><td>Real-time Field War Room</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="ours-cell yes">&#10003;</td></tr>
+                <tr><td>Leave Management</td><td class="yes">&#10003;</td><td class="yes">&#10003;</td><td class="yes">&#10003;</td><td class="ours-cell yes">&#10003;</td></tr>
+                <tr><td>Payroll Engine</td><td class="yes">&#10003;</td><td class="yes">&#10003; (add-on)</td><td class="yes">&#10003; (add-on)</td><td class="ours-cell yes">&#10003; (included)</td></tr>
+                <tr><td>WFH Monitoring</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="ours-cell yes">&#10003;</td></tr>
+                <tr><td>Screenshot &amp; App Tracking</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="ours-cell yes">&#10003;</td></tr>
+                <tr><td>Fraud Detection</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="ours-cell yes">&#10003;</td></tr>
+                <tr><td>DigiLocker Integration</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="ours-cell yes">&#10003;</td></tr>
+                <tr><td>Employee Mobile Apps</td><td class="yes">&#10003;</td><td class="yes">&#10003;</td><td class="yes">&#10003;</td><td class="ours-cell yes">&#10003; (Desk + Field)</td></tr>
+                <tr style="background:#eff6ff;">
+                    <td><strong>Price (100 emp)</strong></td>
+                    <td class="price-cell">&#8377;7,000/mo</td>
+                    <td class="price-cell">&#8377;6,999/mo</td>
+                    <td class="price-cell">&#8377;7,200/mo</td>
+                    <td class="ours-cell" style="color:var(--accent-green);font-size:14px;"><strong>&#8377;5,900/mo</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- SECTION 6: COMPLETE PLATFORM DELIVERY -->
+    <section class="section">
+        <div class="section-label">WHAT YOU GET</div>
+        <h2 class="section-title">Complete Platform Delivery</h2>
+        <p class="section-desc">Every subscription includes access to the complete LogDay multi-device ecosystem.</p>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Component</th>
+                    <th>Description</th>
+                    <th>Platform</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Web Admin Dashboard</strong></td><td>25-page admin console &mdash; employees, attendance, reports, payroll &amp; settings</td><td><span class="badge">Web Browser</span></td></tr>
+                <tr><td><strong>Desk Employee App</strong></td><td>Mobile application for office staff &mdash; attendance, leave requests, profile &amp; payslips</td><td><span class="badge">Android APK</span></td></tr>
+                <tr><td><strong>Field Employee App</strong></td><td>GPS-enabled app for field teams &mdash; visits, route tracking, expenses &amp; check-ins</td><td><span class="badge">Android APK</span></td></tr>
+                <tr><td><strong>WFH Desktop Agent</strong></td><td>Lightweight desktop monitor &mdash; automated screenshots, app tracking &amp; scoring</td><td><span class="badge">Windows</span></td></tr>
+                <tr><td><strong>Cloud Backend API</strong></td><td>High-performance, secure backend with 160+ endpoints, auto-scaling &amp; daily backups</td><td><span class="badge">Cloud SaaS</span></td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- SECTION 7: IMPLEMENTATION TIMELINE -->
+    <section class="section page-break">
+        <div class="section-label">IMPLEMENTATION</div>
+        <h2 class="section-title">Go Live in 5 Days</h2>
+        <p class="section-desc">Our fast-track onboarding ensures your team is fully operational within one business week.</p>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="day">Day 1</div>
+                <h4>Organization Registration &amp; Setup</h4>
+                <p>Register company profile, configure organization structure, branding, and initialize admin access.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="day">Day 2</div>
+                <h4>Employee Database Upload</h4>
+                <p>Bulk import employee directory via CSV template. Assign departments, designations, and reporting managers.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="day">Day 3</div>
+                <h4>Policy &amp; Rules Configuration</h4>
+                <p>Configure office timings, late grace periods, leave policies, GPS territory geofences, and salary structures.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="day">Day 4</div>
+                <h4>App Deployment &amp; Activation</h4>
+                <p>Distribute Android APKs / app links to employees. Verify logins for desk, field, HR, and managerial staff.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="day">Day 5</div>
+                <h4>Training &amp; Official Go-Live</h4>
+                <p>Conduct hands-on session for HR/Admins. Provide employee guide. Switch completely to digital workforce tracking.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 8: SECURITY -->
+    <section class="section">
+        <div class="section-label">SECURITY &amp; COMPLIANCE</div>
+        <h2 class="section-title">Enterprise-Grade Security</h2>
+        <p class="section-desc">Built with robust security foundations to ensure complete data integrity and compliance.</p>
+        <div class="why-grid">
+            <div class="why-card"><div class="emoji">&#128274;</div><h4>Encrypted Data</h4><p>TLS 1.3 encryption in transit and AES encryption at rest. JWT secure token auth.</p></div>
+            <div class="why-card"><div class="emoji">&#127970;</div><h4>Tenant Isolation</h4><p>Strict multi-tenant logical partitioning ensures zero cross-organization leakage.</p></div>
+            <div class="why-card"><div class="emoji">&#128273;</div><h4>Role-Based Access</h4><p>Granular permissions for Super Admin, HR, Manager, Field Agent, and Staff.</p></div>
+            <div class="why-card"><div class="emoji">&#128190;</div><h4>Automated Backups</h4><p>Daily encrypted snapshots and point-in-time recovery for all operational records.</p></div>
+            <div class="why-card"><div class="emoji">&#128203;</div><h4>Audit Logging</h4><p>Comprehensive event trails detailing who modified, approved, or accessed data.</p></div>
+            <div class="why-card"><div class="emoji">&#127470;&#127475;</div><h4>India-Compliant</h4><p>Hosted in India compliant data facilities meeting statutory IT Act requirements.</p></div>
+        </div>
+    </section>
+
+    <!-- SECTION 9: WHY CHOOSE US -->
+    <section class="section">
+        <div class="section-label">WHY CHOOSE US</div>
+        <h2 class="section-title">The LogDay Advantage</h2>
+        <div class="why-grid">
+            <div class="why-card"><div class="emoji">&#128176;</div><h4>50-80% Savings</h4><p>Full enterprise capabilities at a fraction of legacy HRMS pricing.</p></div>
+            <div class="why-card"><div class="emoji">&#9889;</div><h4>5-Day Rollout</h4><p>Immediate setup with guided onboarding &mdash; zero complex consultants needed.</p></div>
+            <div class="why-card"><div class="emoji">&#128241;</div><h4>Mobile-First</h4><p>Native-like responsive experience with dedicated apps for desk &amp; field.</p></div>
+            <div class="why-card"><div class="emoji">&#128506;</div><h4>Live GPS &amp; Routes</h4><p>Real-time field force monitoring, territory geofences, and expense auditing.</p></div>
+            <div class="why-card"><div class="emoji">&#128421;</div><h4>WFH Monitoring</h4><p>Optional desktop monitoring agent for productivity and remote audit trails.</p></div>
+            <div class="why-card"><div class="emoji">&#128200;</div><h4>Zero Infra Hassle</h4><p>Cloud-hosted SaaS with continuous feature updates and 99.9% uptime.</p></div>
+        </div>
+        <div class="callout-box" style="margin-top:30px;">
+            <h4>Risk-Free 14-Day Full Platform Trial</h4>
+            <p>Deploy LogDay with your entire organization for 14 days with zero upfront payment. Experience the live dashboard, mobile apps, and reports before making any commercial decision.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 10: COMMERCIAL SUMMARY -->
+    <section class="section page-break">
+        <div class="section-label">COMMERCIAL SUMMARY</div>
+        <h2 class="section-title">Quick Reference</h2>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th style="width:40%;">Commercial Term</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Desk Attendance</strong></td><td>&#8377;59 / employee / month</td></tr>
+                <tr><td><strong>Desk + Field Attendance</strong></td><td>&#8377;79 / employee / month</td></tr>
+                <tr><td><strong>HRMS + Payroll</strong></td><td>&#8377;99 / employee / month</td></tr>
+                <tr><td><strong>Complete Bundle</strong></td><td>&#8377;129 / employee / month</td></tr>
+                <tr><td><strong>Enterprise (All + WFH)</strong></td><td>&#8377;149 / employee / month</td></tr>
+                <tr><td colspan="2" style="height:6px;padding:0;background:#e2e8f0;"></td></tr>
+                <tr><td>Setup &amp; Onboarding Fee</td><td>&#8377;5,000 one-time (waived on annual subscription)</td></tr>
+                <tr><td>Billing Cycles</td><td>Monthly or Annual (2 Months FREE on annual plans)</td></tr>
+                <tr><td>Trial Period</td><td>14 Days &mdash; Complete access for full team</td></tr>
+                <tr><td>Deployment Model</td><td>Cloud SaaS (No client servers or hardware needed)</td></tr>
+                <tr><td>Customer Support</td><td>Phone &amp; Email support included across all tiers</td></tr>
+                <tr><td>Onboarding Support</td><td>5-Day structured implementation &amp; admin training</td></tr>
+                <tr><td>Contract Flexibility</td><td>Month-to-month flexibility or annual rate guarantee</td></tr>
+                <tr><td>Enterprise Customization</td><td>Custom integrations &amp; dedicated support for 500+ employees</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+</main>
+
+<footer class="footer">
+    <div class="page">
+        <div class="company-name">TECHNULA-GAJ</div>
+        <p style="color:var(--text-secondary);font-size:14px;margin-bottom:4px;font-weight:500;">Affordable Software. Transparent Pricing. Modern Workforce Management.</p>
+        <div class="contact-grid">
+            <div class="contact-item">&#128222; +91-9990911093</div>
+            <div class="contact-item">&#9993;&#65039; sales@technula.com</div>
+            <div class="contact-item">&#127760; www.technula.com</div>
+        </div>
+        <p style="color:var(--text-muted);font-size:12.5px;">S20, First Floor, Amolik Sankalp, Sector-85, Faridabad, Haryana</p>
+        <div class="divider"></div>
+        <p style="font-size:12.5px;color:var(--text-muted);font-style:italic;">"Making professional HR technology accessible &amp; affordable for every Indian business."</p>
+        <p style="color:#94a3b8;font-size:11.5px;margin-top:12px;">&copy; 2026 TECHNULA-GAJ. All rights reserved. Confidential document prepared for client presentation.</p>
+    </div>
+</footer>
+
+</body>
+</html>
